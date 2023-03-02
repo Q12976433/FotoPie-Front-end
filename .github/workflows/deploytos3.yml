@@ -25,7 +25,7 @@ jobs:
     - name: Build app
       run: npm run build
       
-    - run: next export
+    - run: npm run export
       
     - run: aws s3 sync ./out s3://gitaction-sheltonchin
     
