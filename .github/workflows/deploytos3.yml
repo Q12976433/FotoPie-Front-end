@@ -3,7 +3,7 @@ name: Next.js Deploy to S3
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
@@ -25,11 +25,10 @@ jobs:
         run: npm run build
 
       - name: Deploy to S3
-        uses: jakejarvis/s3-sync-action@master
+        uses: actions/aws-cli@v1
         with:
-          args: --delete --acl public-read --follow-symlinks --exclude '.git/*'
-          aws-s3-region: ap-southeast-2
-          aws-s3-bucket: gitaction-sheltonchin
-          source-dir: out/
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          args: s3 sync out/ s3://gitaction-sheltonchin/ --delete --acl public-read
+        env:
+          AWS_REGION: ap-southeast-2
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
