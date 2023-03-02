@@ -25,11 +25,13 @@ jobs:
     - name: Build app
       run: npm run build
       
-    - name: Export file
-        uses: actions/upload-artifact@v2
-        with:
-          name: out
-          path: /FotoPie-Front-end/out
-      
-    - run: aws s3 sync ./out s3://gitaction-sheltonchin
+    - name: Upload to S3
+      uses: aws-actions/aws-s3-deploy@v2
+      with:
+        args: --acl public-read --follow-symlinks --delete
+        bucket: sheltonchin-gohusky
+        exclude: '*.html'
+        include: '**/*'
+        local-dir: out/
+        overwrite: true
     
