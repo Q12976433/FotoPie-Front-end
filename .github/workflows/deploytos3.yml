@@ -22,6 +22,11 @@ jobs:
 
       - name: Build the application
         run: npm run build
+          
+          artifacts:
+          paths:
+          - out/
+
 
       - name: Deploy to AWS S3
         uses: aws-actions/configure-aws-credentials@v1
